@@ -3,6 +3,9 @@
   "description": "Test Automation Project",
   "main": "Main.xaml",
   "dependencies": {
+    "ReporterForUiPath.Activities": "[2.0.0]",
+    "UiPath.Excel.Activities": "[2.12.3]",
+    "UiPath.Jira.Activities": "[2.3.1-preview]",
     "UiPath.System.Activities": "[22.7.0-preview]",
     "UiPath.Testing.Activities": "[22.4.3]",
     "UiPath.UIAutomation.Activities": "[22.7.0-preview]"
