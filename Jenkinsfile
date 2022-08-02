@@ -29,14 +29,13 @@ pipeline {
 
 	        stage('Build') {
 	            steps {
-	                echo "Building package with ${WORKSPACE}"
+	                echo "Building..with ${WORKSPACE}"
 	                UiPathPack (
-	                      outputPath: "Output\\${env.BUILD_NUMBER}",
-			      outputType: 'Tests',
-	                      projectJsonPath: "project.json",
-	                      version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
-	                      useOrchestrator: false,
-			      traceLevel: 'None'
+                      outputPath: "Output\\${env.BUILD_NUMBER}",
+                      projectJsonPath: "project.json",
+                      version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
+                      useOrchestrator: false,
+					  traceLevel: 'None'
 				    )
 	                   }
 	                              }
@@ -45,14 +44,15 @@ pipeline {
 	            steps {
 	                echo "Deploying ${BRANCH_NAME} to UAT "
                 	UiPathDeploy (
-                	packagePath: "Output\\\\${env.BUILD_NUMBER}",
+                	 packagePath: "Output\\${env.BUILD_NUMBER}",
                 	orchestratorAddress: "${UIPATH_ORCH_URL}",
                 	orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
                 	folderName: "${UIPATH_ORCH_FOLDER_NAME}",
                 	environments: 'DEV',
+                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
                 	credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'), 
-			traceLevel: 'None'
-			
+				traceLevel: 'None',
+				entryPointPaths: 'Main.xaml'
 				      )
 	                   }
 	                                 }	
