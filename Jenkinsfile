@@ -52,7 +52,7 @@ pipeline {
 	            steps {
 	                echo "Deploying ${BRANCH_NAME} to orchestrator"
 	                UiPathDeploy (
-	                packagePath: "Output\\${env.BUILD_NUMBER}\\PRMS_TestAutomationProject.${MAJOR}.${MINOR}.${env.BUILD_NUMBER}",
+	                packagePath: "Output\\${env.BUILD_NUMBER}",
 	                orchestratorAddress: "${UIPATH_ORCH_URL}",
 	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
 	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
