@@ -38,7 +38,7 @@ pipeline {
 	                echo "Building package with ${WORKSPACE}"
 	                UiPathPack (
 	                      outputPath: "Output\\${env.BUILD_NUMBER}",
-						  outputType: 'Tests',
+			      outputType: 'Tests',
 	                      projectJsonPath: "project.json",
 	                      version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
 	                      useOrchestrator: false,
@@ -52,15 +52,15 @@ pipeline {
 	            steps {
 	                echo "Deploying ${BRANCH_NAME} to orchestrator"
 	                UiPathDeploy (
-	                packagePath: "Output\\${env.BUILD_NUMBER}",
+	                packagePath: "Output\\${env.BUILD_NUMBER}\\",
 	                orchestratorAddress: "${UIPATH_ORCH_URL}",
 	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
 	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
 	                environments: 'DEV',
 	                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
 	                credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'),
-					traceLevel: 'None',
-					entryPointPaths: 'Main.xaml'
+			traceLevel: 'None',
+			entryPointPaths: 'Main.xaml'
 	
 
 					)
