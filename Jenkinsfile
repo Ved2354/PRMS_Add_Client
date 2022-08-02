@@ -1,8 +1,9 @@
 pipeline {
- agent any
+	    agent any
+	
 
-    	        // Environment Variables
-	        environment {
+	        // Environment Variables
+	       environment {
 	        MAJOR = '6'
 	        MINOR = '0'
 	        //Orchestrator Services
@@ -13,7 +14,25 @@ pipeline {
 	    }
 	
 
-	     // Building Tests
+	    stages {
+	
+
+	        // Printing Basic Information
+	        stage('Preparing'){
+	            steps {
+	                echo "Jenkins Home ${env.JENKINS_HOME}"
+	                echo "Jenkins URL ${env.JENKINS_URL}"
+	                echo "Jenkins JOB Number ${env.BUILD_NUMBER}"
+	                echo "Jenkins JOB Name ${env.JOB_NAME}"
+	                echo "GitHub BranchName ${env.BRANCH_NAME}"
+	                checkout scm
+	
+
+	            }
+	        }
+	
+
+	         // Building Tests
 	        stage('Build Tests') {
 	            steps {
 	                echo "Building package with ${WORKSPACE}"
@@ -37,7 +56,7 @@ pipeline {
 	                orchestratorAddress: "${UIPATH_ORCH_URL}",
 	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
 	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
-	                environments: 'PROD',
+	                environments: 'INT',
 	                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
 	                credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'),
 					traceLevel: 'None',
@@ -95,14 +114,14 @@ pipeline {
 						currentBuild.result == null || currentBuild.result == 'SUCCESS' 
 						}
 				}
-		steps {
+				steps {
 	                echo 'Deploying process to orchestrator...'
 	                UiPathDeploy (
 	                packagePath: "Output\\${env.BUILD_NUMBER}",
 	                orchestratorAddress: "${UIPATH_ORCH_URL}",
 	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
 	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
-	                environments: 'PROD',
+	                environments: 'INT',
 	                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
 	                credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'),
 					traceLevel: 'None',
@@ -138,4 +157,4 @@ pipeline {
 	        }
 	    }
 	
-	
+	}
