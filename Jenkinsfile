@@ -38,12 +38,12 @@ pipeline {
 	            steps {
 	                echo "Building package with ${WORKSPACE}"
 	                UiPathPack (
-	                      outputPath: "Output\\Tests\${env.BUILD_NUMBER}",
+	                      outputPath: "Output\\${env.BUILD_NUMBER}",
 			      outputType: 'Tests',
 	                      projectJsonPath: "project.json",
 	                      version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
 	                      useOrchestrator: false,
-						  traceLevel: 'None'
+			      traceLevel: 'None'
 						)
 	            }
 	        }
@@ -53,7 +53,7 @@ pipeline {
 	            steps {
 	                echo "Deploying to orchestrator"
 	                UiPathDeploy (
-	                packagePath: "Output\\Tests\${env.BUILD_NUMBER}",
+	                packagePath: "Output\\${env.BUILD_NUMBER}",
 	                orchestratorAddress: "${UIPATH_ORCH_URL}",
 	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
 	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
