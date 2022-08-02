@@ -27,7 +27,7 @@ pipeline {
 	        		}
 	
 
-	        stage('Build Tests') {
+	        stage('Build') {
 	            steps {
 	                echo "Building package with ${WORKSPACE}"
 	                UiPathPack (
@@ -41,7 +41,7 @@ pipeline {
 	                   }
 	                              }
 		
-	        stage('Deploy to UAT') {
+	        stage('Deploy') {
 	            steps {
 	                echo "Deploying ${BRANCH_NAME} to UAT "
                 	UiPathDeploy (
